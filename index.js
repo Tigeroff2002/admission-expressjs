@@ -1,6 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const sequalize = require('./sequalize');
+const { v4: uuidv4 } = require('uuid');
 
 require('dotenv').config();
 
@@ -10,6 +11,8 @@ sequalize.authenticate()
 
 const app = express();
 const port = 3030;
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -23,17 +26,30 @@ sequalize.sync()
     .then(() => console.log('Tables have been synchronized.'))
     .catch(err => console.error('Error synchronizing tables:', err));
 
-app.get('/register', async (req, res) => {
+app.post('/register', async (req, res) => {
     try {
-        const user = await Abiturient.create({
-            email: "test-user@gmail.com",
-            password: "root",
-            token: "1111",
-            first_name: "Kirill",
-            second_name: "Parakhin",
-            has_diplom_original: true
+
+        const { email, password, first_name, second_name, is_admin } = req.body;
+
+        const token = uuidv4();
+
+        const abiturient = await Abiturient.create({
+            email: email,
+            password: password,
+            token: token,
+            first_name: first_name,
+            second_name: second_name,
+            is_admin: is_admin,
+            has_diplom_original: false
         });
-        res.json(user);
+        
+        return res.status(200).json({ 
+            abiturient_id: abiturient.id, 
+            token: token, 
+            is_admin: is_admin, 
+            content: null, 
+            failure_message: null, 
+            result: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
