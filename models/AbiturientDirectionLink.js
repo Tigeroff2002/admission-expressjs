@@ -22,6 +22,11 @@ const AbiturientDirectionLink = sequelize.define('AbiturientDirectionLink', {
         allowNull: false,
         defaultValue: 0
     },
+    mark: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    },
     admission_status: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,7 +43,7 @@ const AbiturientDirectionLink = sequelize.define('AbiturientDirectionLink', {
         defaultValue: false
     }
 }, {
-    tableName: 'abiturient_direction_links',
+    //tableName: 'abiturient_direction_links',
     timestamps: false
 });
 
