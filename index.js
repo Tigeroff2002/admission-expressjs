@@ -955,7 +955,7 @@ const pool = new Pool({
 
 // /directions/fillMarks
 /*
-curl -X POST http://localhost:PORT/directions/fillMarks \
+curl -X POST http://localhost:3030/directions/fillMarks \
      -F 'csv=@./csv_marks.csv' \
      -F 'abiturient_id=1' \
      -F 'token=your_token' \
